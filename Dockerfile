@@ -36,21 +36,15 @@ RUN pyenv install $PYTHON_VERSION
 RUN pyenv global $PYTHON_VERSION
 RUN eval "$(pyenv init --path)"
 
-# --------------------------------------------------------------
-# Install rust (*** 追加した部分!!! ***)
-#
-# NOTE: Mac PC で build する場合のみ Rust が必要な模様
-# 参考　https://qiita.com/siruku6/items/460986ce55f05df2a04c
-# --------------------------------------------------------------
+# Install rust
 ENV PATH=$PATH:/root/.cargo/bin
 RUN curl https://sh.rustup.rs -sSf > /rust.sh
 RUN sh /rust.sh -y
-RUN rustup install stable
 
 # COPY requirements.txt /workspace/
 RUN python3 -m pip install --upgrade pip
 
-RUN pip install jupyterlab cython
+RUN pip install jupyterlab
 
 # install dependencies for SudachiPy
 RUN apt-get update && apt-get install -y build-essential
